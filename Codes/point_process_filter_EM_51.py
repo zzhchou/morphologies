@@ -238,7 +238,7 @@ mu = np.log(mean_branching_rate)
 max_S = 30
 #
 #
-num_morphologies = 50
+num_morphologies = 1
 plot_flag = 1
 flag_val = 1
 weight_bonus = 0.05
@@ -1645,7 +1645,7 @@ if part3_flag == 1:
             print 'simulation_time =',simulation_time    
             
             n_stem = int(random.random()*max_stems) + 1
-            n_stem = 1
+            n_stem = 2
             print 'morphology #', j+1
         
             if n_stem == 1:

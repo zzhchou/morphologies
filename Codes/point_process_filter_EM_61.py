@@ -1024,8 +1024,8 @@ class Branch:
 
     # jitter
     
-        theta_sd = 5
-        phi_sd = 5
+        theta_sd = 0
+        phi_sd = 0
 #        theta_sd = 15
 #        phi_sd = 5
         growing_inertial_weight = 1
@@ -1052,6 +1052,7 @@ class Branch:
             new_growth_vector = unit_vector([self.canonical_end[i] - self.end_coordinates[i] for i in range(0,3)])
         
         self.remote_growth_vector = new_growth_vector
+        self.remote_growth_vector = self.inertial_growth_vector
         
         growing_inertial_weight = 1
         growing_neighbor_weight = 0
@@ -1388,6 +1389,9 @@ def simulate_growth(branch_list, arg1, arg2, arg3, arg4, arg5, t, simulation_tim
                     else:
                         bif_amp_alt = bif_amp
                         
+                    print bif_amp, bif_amp_alt
+                    if bif_amp_alt < bif_amp:
+                        bif_amp = bif_amp_alt
 #                    bif_amp = (bif_amp + bif_amp_alt)/2
                     new_vector1, new_x_axis1 = angle_noise([0,0,0], new_vector, new_vector, branch.x_axis, 0, 0, bif_amp)
                     new_vector2, new_x_axis2 = angle_noise([0,0,0], new_vector, new_vector, branch.x_axis, 0, 0, -bif_amp)
@@ -1402,7 +1406,6 @@ def simulate_growth(branch_list, arg1, arg2, arg3, arg4, arg5, t, simulation_tim
                     else:
                         new_vector = new_vector2
                         new_x_axis = new_x_axis2  
-                    
                     
                     norm_vector = unit_vector(cross_product(parent_vector, [0,1,0]))
                     if norm_vector == [0,0,0]:
@@ -1450,7 +1453,7 @@ def simulate_growth(branch_list, arg1, arg2, arg3, arg4, arg5, t, simulation_tim
                         rand_phi2 = rand_phi2_local
                     
                     azimuth = rand_theta2_local
-#                    azimuth = 0
+                    azimuth = 0
 #                    print norm_vector, p_vector
         #            c_angle = 90 - calc_angle(norm_vector, p_vector)
                     c_angle = calc_angle(norm_vector, p_vector) + azimuth
@@ -1528,7 +1531,7 @@ def simulate_growth(branch_list, arg1, arg2, arg3, arg4, arg5, t, simulation_tim
                     new_branch = Branch(branch.end_coordinates, new_vector, new_diameter)
                 new_branch.rescale_point_process(simulation_time)
                 new_branch.local_growth_vector = new_vector
-                new_branch.remote_growth_vector = new_remote
+                new_branch.remote_growth_vector = new_vector
                 new_branch.canonical_end = [new_branch.count*new_branch.remote_growth_vector[i] + new_branch.new_compartment_list[-1].end_coordinates[i] for i in range(0, 3)]
 
                 
@@ -1661,7 +1664,7 @@ if part3_flag == 1:
             print 'simulation_time =',simulation_time    
             
             n_stem = int(random.random()*max_stems) + 1
-            n_stem = 1
+            n_stem = 2
             print 'morphology #', j+1
         
             if n_stem == 1:
