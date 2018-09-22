@@ -5,6 +5,8 @@ from mpl_toolkits.mplot3d import Axes3D
 import math
 import numpy as np
 
+# git test
+
 from angle_noise_updated import angle_noise
 from B_morph_170811_2 import make_compartments
 def cross_product((u1, u2, u3),(v1, v2, v3)):
@@ -1386,13 +1388,15 @@ def simulate_growth(branch_list, arg1, arg2, arg3, arg4, arg5, t, simulation_tim
                     bif_amp = conditional_probability(6, branch.pathlength_from_soma)
                     if branch.parent_bif_amp != 0:    
                         bif_amp_alt = conditional_probability(7, branch.parent_bif_amp)
+                        bif_amp_prev = branch.parent_bif_amp                        
                     else:
                         bif_amp_alt = bif_amp
-                        
-                    print bif_amp, bif_amp_alt
-                    if bif_amp_alt < bif_amp:
-                        bif_amp = bif_amp_alt
-#                    bif_amp = (bif_amp + bif_amp_alt)/2
+                        bif_amp_prev = bif_amp
+
+                    print bif_amp, bif_amp_prev
+#                    if bif_amp_alt < bif_amp:
+#                        bif_amp = bif_amp_alt
+                    bif_amp = (bif_amp_prev + bif_amp_alt + bif_amp)/3
                     new_vector1, new_x_axis1 = angle_noise([0,0,0], new_vector, new_vector, branch.x_axis, 0, 0, bif_amp)
                     new_vector2, new_x_axis2 = angle_noise([0,0,0], new_vector, new_vector, branch.x_axis, 0, 0, -bif_amp)
                     
@@ -1406,6 +1410,7 @@ def simulate_growth(branch_list, arg1, arg2, arg3, arg4, arg5, t, simulation_tim
                     else:
                         new_vector = new_vector2
                         new_x_axis = new_x_axis2  
+                    
                     
                     norm_vector = unit_vector(cross_product(parent_vector, [0,1,0]))
                     if norm_vector == [0,0,0]:

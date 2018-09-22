@@ -460,10 +460,11 @@ def calculate_remote_angles(bifurcation_list):
             elif rot_y_diff < -math.pi:
                 rot_y_diff = rot_y_diff + 2*math.pi
 
-
+            
             rot_x = rot_x2
             rot_y = rot_y2
             rot_z = rot_z2
+
 
             R_x = np.matrix( ((1, 0, 0), (0, math.cos(rot_x), -math.sin(rot_x)), (0, math.sin(rot_x), math.cos(rot_x))) )
             R_y = np.matrix( ((math.cos(rot_y), 0, -math.sin(rot_y)), (0, 1, 0), (math.sin(rot_y), 0, math.cos(rot_y))) )
